@@ -1,0 +1,30 @@
+{
+  "name": "Redrob Jugaad",
+  "short_name": "Jugaad",
+  "description": "AI-powered micro-gig marketplace. Verified student talent, real delivery scores, escrow payments.",
+  "version": "1.0.0",
+  "publisher": "lexai100",
+  "category": "talent",
+  "tags": ["gig", "students", "hiring", "AI", "India"],
+  "live_url": "https://redrob-jugaad.vercel.app",
+  "embed_url": "https://redrob-jugaad.vercel.app/embed",
+  "entry_points": {
+    "student": "https://redrob-jugaad.vercel.app/embed?role=student",
+    "business": "https://redrob-jugaad.vercel.app/embed?role=business"
+  },
+  "permissions": ["camera", "microphone"],
+  "embed": {
+    "width": 420,
+    "height": 580,
+    "resizable": true,
+    "sandbox": "allow-scripts allow-same-origin allow-forms allow-popups"
+  },
+  "branding": {
+    "primary_color": "#7CB518",
+    "background_color": "#080808",
+    "text_color": "#FFFFFF",
+    "logo": "https://redrob-jugaad.vercel.app/mascot.png"
+  },
+  "hackathon": "India Runs 2026",
+  "built_with": ["Next.js", "AI Grading", "Webcam Monitoring", "Escrow Payments"]
+}

@@ -154,22 +154,30 @@ export default function LandingPage() {
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 120, background: 'linear-gradient(transparent, var(--bg))', pointerEvents: 'none' }} />
       </section>
 
-      {/* ── AI VERIFICATION SHOWCASE ── */}
+      {/* ── TRUST & VERIFICATION ── */}
       <section style={{ borderTop: '1px solid var(--border)', background: 'var(--bg-2)', padding: '72px 48px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }}>
           <div>
-            <p style={{ fontSize: 11, color: 'var(--green)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>AI Verification Engine</p>
+            <p style={{ fontSize: 11, color: 'var(--green)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>Built on Trust</p>
             <h2 style={{ fontSize: 36, fontWeight: 800, marginBottom: 16, lineHeight: 1.2 }}>Every claim is verified.<br />No exceptions.</h2>
-            <p style={{ fontSize: 15, color: 'var(--ink-3)', lineHeight: 1.7, marginBottom: 24 }}>
-              Assessments are <strong style={{ color: 'var(--ink-2)' }}>webcam-proctored with MediaPipe</strong> — tracking gaze, head pose, and multiple-face detection in real time. Answers are <strong style={{ color: 'var(--ink-2)' }}>AI-graded by rubric</strong> and cross-checked for authenticity. Milestones are <strong style={{ color: 'var(--ink-2)' }}>verified before payment releases</strong>.
-            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+              <p style={{ fontSize: 15, color: 'var(--ink-3)', lineHeight: 1.6, margin: 0 }}>
+                Assessments are <strong style={{ color: 'var(--ink-2)' }}>webcam-monitored</strong> to keep them honest.
+              </p>
+              <p style={{ fontSize: 15, color: 'var(--ink-3)', lineHeight: 1.6, margin: 0 }}>
+                Written answers are <strong style={{ color: 'var(--ink-2)' }}>scored by AI on a rubric</strong> — not just keywords.
+              </p>
+              <p style={{ fontSize: 15, color: 'var(--ink-3)', lineHeight: 1.6, margin: 0 }}>
+                Payment only releases <strong style={{ color: 'var(--ink-2)' }}>after work is verified</strong>.
+              </p>
+            </div>
             <Link href="/student/onboarding" className="btn-primary" style={{ fontSize: 14 }}>Try the Assessment →</Link>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {[
-              { icon: '🧠', title: 'Webcam Proctoring', body: 'MediaPipe + Gemini Flash audit. Gaze, head pose, and face count — all checked live.', dot: '#818CF8' },
-              { icon: '📝', title: 'Rubric-based AI Grading', body: 'LLaMA 3.3 70B grades written answers against a criterion-by-criterion rubric. No hand-waving.', dot: '#A3E635' },
-              { icon: '🔐', title: 'Milestone Escrow', body: 'Payment releases only after AI verifies the delivered milestone meets the brief. Auto-logged on chain.', dot: '#F97316' },
+              { icon: '📸', title: 'Monitored Assessments', body: 'Your webcam stays on during the test. Suspicious behaviour is flagged automatically — keeping scores trustworthy for everyone.', dot: '#818CF8' },
+              { icon: '📝', title: 'AI-Graded Written Answers', body: 'Written responses are graded against a clear rubric by AI — not just pattern-matched. You get a fair, consistent score every time.', dot: '#A3E635' },
+              { icon: '🔐', title: 'Pay Only for Delivered Work', body: 'Payment is held safely and released only after the submitted milestone is verified as complete. No disputes, no ghosting.', dot: '#F97316' },
             ].map((n, i) => (
               <div key={i} style={{
                 background: 'var(--bg-3)', border: '1px solid var(--border)',

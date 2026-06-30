@@ -299,9 +299,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer style={{ borderTop: '1px solid var(--border)', padding: '24px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <footer style={{ borderTop: '1px solid var(--border)', padding: '24px 48px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <span style={{ fontSize: 13, color: 'var(--ink-4)' }}>Redrob Jugaad · India Runs Hackathon 2026</span>
-        <span style={{ fontSize: 13, color: 'var(--ink-4)' }}>Powered by Groq · LLaMA 3.3 70B</span>
       </footer>
     </div>
   );

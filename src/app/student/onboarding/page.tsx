@@ -61,7 +61,7 @@ print(mystery([3, 1, 4, 1, 5, 9, 2, 6]))`,
   {
     id: 'q3',
     type: 'complexity',
-    question: 'What is the time complexity of this function? Be specific.',
+    question: 'What is the time complexity of this function?',
     code: `def process(nums):
     n = len(nums)
     count = 0
@@ -71,9 +71,9 @@ print(mystery([3, 1, 4, 1, 5, 9, 2, 6]))`,
             count += nums[i] + nums[j]
             j *= 2
     return count`,
-    options: ['O(n²)', 'O(n log n)', 'O(n²) outer, O(log n) inner = O(n log n)', 'O(log n)'],
-    correct: 2,
-    explanation: 'Outer loop: O(n). Inner while (j*=2): O(log n). Total: O(n log n).',
+    options: ['O(n²)', 'O(n log n)', 'O(n)', 'O(log n)'],
+    correct: 1,
+    explanation: 'Outer for loop runs n times → O(n). Inner while loop doubles j each iteration so runs log₂(n) times → O(log n). Combined: O(n log n).',
   },
   {
     id: 'q4',

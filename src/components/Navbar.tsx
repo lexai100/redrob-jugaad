@@ -21,6 +21,9 @@ export default function Navbar() {
   const router = useRouter();
   const [showSwitcher, setShowSwitcher] = useState(false);
 
+  // Hide entirely inside embed iframes
+  if (pathname.startsWith('/embed')) return null;
+
   const isLanding = pathname === '/';
 
   return (

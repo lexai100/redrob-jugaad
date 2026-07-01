@@ -399,20 +399,46 @@ function OnboardingInner() {
     };
     const onFullscreen = () => {
       if (!document.fullscreenElement) {
-        setLockWarning('⚠️ Fullscreen exited! Please return to fullscreen. -5 minutes penalty.');
+        setLockWarning('⚠️ Fullscreen exited! Returning you to fullscreen. -5 minutes penalty.');
         setViolations(v => v + 1);
         setTimeLeft(t => Math.max(0, t - 5 * 60));
-        setTimeout(() => setLockWarning(''), 6000);
+        // Force re-entry immediately
+        setTimeout(() => {
+          document.documentElement.requestFullscreen().catch(() => {});
+          setLockWarning('');
+        }, 1500);
+      }
+    };
+
+    // Screenshot / print blocking
+    const onKeyDown = (e: KeyboardEvent) => {
+      const blocked =
+        e.key === 'PrintScreen' ||
+        (e.ctrlKey && e.key === 'p') ||
+        (e.ctrlKey && e.key === 's') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'S') ||
+        (e.metaKey && e.shiftKey && ['3', '4', '5'].includes(e.key));
+      if (blocked) {
+        e.preventDefault();
+        e.stopPropagation();
+        // Clear clipboard to kill PrintScreen capture
+        navigator.clipboard?.writeText('').catch(() => {});
+        setLockWarning('🚫 Screenshot attempt detected! -5 minutes penalty.');
+        setViolations(v => v + 1);
+        setTimeLeft(t => Math.max(0, t - 5 * 60));
+        setTimeout(() => setLockWarning(''), 4000);
       }
     };
 
     window.addEventListener('blur', onBlur);
     document.addEventListener('visibilitychange', onVisibility);
     document.addEventListener('fullscreenchange', onFullscreen);
+    window.addEventListener('keydown', onKeyDown, true);
     return () => {
       window.removeEventListener('blur', onBlur);
       document.removeEventListener('visibilitychange', onVisibility);
       document.removeEventListener('fullscreenchange', onFullscreen);
+      window.removeEventListener('keydown', onKeyDown, true);
     };
   }, [isExamActive]);
 
@@ -533,6 +559,7 @@ function OnboardingInner() {
                   const isCorrect = optIdx === q.correct;
                   return (
                     <button key={optIdx} onClick={() => {
+                      if (revealed[i]) return; // locked after first answer
                       setDevAnswers(prev => ({ ...prev, [q.id]: optIdx }));
                       setRevealed(prev => ({ ...prev, [i]: true }));
                     }} style={{
@@ -540,8 +567,9 @@ function OnboardingInner() {
                       borderColor: isRevealed ? (isCorrect ? 'var(--green)' : isSelected ? '#DC2626' : 'var(--border)') : (isSelected ? track?.color : 'var(--border)'),
                       background: isRevealed ? (isCorrect ? 'rgba(124,181,24,0.1)' : isSelected ? 'rgba(220,38,38,0.1)' : 'var(--bg)') : (isSelected ? track?.color + '18' : 'var(--bg)'),
                       color: isRevealed ? (isCorrect ? 'var(--green)' : isSelected ? '#F87171' : 'var(--ink)') : (isSelected ? track?.color : 'var(--ink)'),
-                      cursor: 'pointer', textAlign: 'left', fontSize: 13,
+                      cursor: isRevealed ? 'not-allowed' : 'pointer', textAlign: 'left', fontSize: 13,
                       fontWeight: isSelected ? 600 : 400, transition: 'all 0.15s',
+                      pointerEvents: isRevealed ? 'none' : 'auto',
                     }}>{String.fromCharCode(65 + optIdx)}. {opt}</button>
                   );
                 })}
@@ -565,6 +593,7 @@ function OnboardingInner() {
                   const isCorrect = optIdx === q.correct;
                   return (
                     <button key={optIdx} onClick={() => {
+                      if (revealed[i]) return; // locked after first answer
                       const updated = [...domainAnswers]; updated[i] = optIdx;
                       setDomainAnswers(updated);
                       setRevealed(prev => ({ ...prev, [i]: true }));
@@ -573,8 +602,9 @@ function OnboardingInner() {
                       borderColor: isRevealed ? (isCorrect ? 'var(--green)' : isSelected ? '#DC2626' : 'var(--border)') : (isSelected ? track?.color : 'var(--border)'),
                       background: isRevealed ? (isCorrect ? 'rgba(124,181,24,0.1)' : isSelected ? 'rgba(220,38,38,0.1)' : 'var(--bg)') : (isSelected ? track?.color + '0E' : 'var(--bg)'),
                       color: isRevealed ? (isCorrect ? 'var(--green)' : isSelected ? '#F87171' : 'var(--ink)') : (isSelected ? track?.color : 'var(--ink)'),
-                      cursor: 'pointer', textAlign: 'left', fontSize: 13,
+                      cursor: isRevealed ? 'not-allowed' : 'pointer', textAlign: 'left', fontSize: 13,
                       fontWeight: isSelected ? 600 : 400, transition: 'all 0.15s',
+                      pointerEvents: isRevealed ? 'none' : 'auto',
                     }}>{opt}</button>
                   );
                 })}

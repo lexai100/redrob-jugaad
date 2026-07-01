@@ -174,8 +174,8 @@ export default function ShortlistClient() {
 function StudentCard({ student, rank, trackColors, taskData }: any) {
   const [expanded, setExpanded] = useState(false);
   const [assigned, setAssigned] = useState(false);
+  const [assigning, setAssigning] = useState(false);
   const color = trackColors[student.track] || 'var(--purple)';
-  const isArjun = student.userId === 's1';
 
   return (
     <div className="card fade-up" style={{ marginBottom: 16, animationDelay: `${rank * 0.05}s`, cursor: 'pointer' }} onClick={() => setExpanded(!expanded)}>
@@ -244,14 +244,14 @@ function StudentCard({ student, rank, trackColors, taskData }: any) {
           )}
 
           {/* Gig assigned confirmation */}
-          {assigned && isArjun && (
+          {assigned && (
             <div className="fade-up" style={{
               background: 'rgba(124,181,24,0.08)', border: '1px solid rgba(124,181,24,0.3)',
               borderRadius: 12, padding: '16px 18px', marginBottom: 12,
             }}>
               <p style={{ fontWeight: 700, color: 'var(--green)', marginBottom: 6 }}>✅ Gig assigned to {student.user?.name}!</p>
               <p style={{ fontSize: 13, color: 'var(--ink-3)', marginBottom: 12 }}>
-                ₹6,000–₹8,000 locked in escrow. Arjun has been notified and can see the milestone breakdown in his dashboard.
+                Budget locked in escrow. {student.user?.name} has been notified and their milestone dashboard is ready.
               </p>
               <Link
                 href={`/student/${student.userId}/gig`}
@@ -259,7 +259,7 @@ function StudentCard({ student, rank, trackColors, taskData }: any) {
                 style={{ fontSize: 13, padding: '9px 18px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}
                 onClick={e => e.stopPropagation()}
               >
-                👀 See Arjun's Active Gig →
+                👀 See {student.user?.name.split(' ')[0]}'s Active Gig →
               </Link>
             </div>
           )}
@@ -271,10 +271,29 @@ function StudentCard({ student, rank, trackColors, taskData }: any) {
             {!assigned && (
               <button
                 className="btn-primary"
-                style={{ fontSize: 13, padding: '8px 16px' }}
-                onClick={e => { e.stopPropagation(); setAssigned(true); }}
+                style={{ fontSize: 13, padding: '8px 16px', opacity: assigning ? 0.7 : 1 }}
+                disabled={assigning}
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  setAssigning(true);
+                  try {
+                    await fetch('/api/milestones', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        action: 'assign-gig',
+                        studentId: student.userId,
+                        taskId: taskData?.id || 'dynamic-task',
+                        taskTitle: taskData?.brief?.title || 'New Gig',
+                        track: student.track,
+                      }),
+                    });
+                  } catch {}
+                  setAssigning(false);
+                  setAssigned(true);
+                }}
               >
-                ✓ Assign Gig
+                {assigning ? '⏳ Assigning...' : '✓ Assign Gig'}
               </button>
             )}
           </div>

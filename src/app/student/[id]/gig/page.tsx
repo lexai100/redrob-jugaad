@@ -42,6 +42,14 @@ export default function ActiveGigPage() {
     },
   };
 
+  // For dynamically assigned tasks not in TASK_DATA, build a fallback from the milestone taskId
+  const getTask = (taskId: string) => TASK_DATA[taskId] || {
+    title: 'Assigned Gig',
+    budget: 'In Escrow',
+    business: 'Business Owner',
+    brief: { acceptance_criteria: ['Deliver as per the brief shared by the business owner'] },
+  };
+
   useEffect(() => {
     loadMilestones();
   }, [studentId]);
@@ -69,8 +77,8 @@ export default function ActiveGigPage() {
 
   const handleVerify = async (milestoneId: string, taskId: string, submissionOverride?: string) => {
     const milestone = milestones.find(m => m.id === milestoneId);
-    const task = tasks[taskId];
-    if (!milestone || !task) return;
+    const task = getTask(taskId);
+    if (!milestone) return;
 
     const submissionText = submissionOverride || milestone.submissionText || '';
     setVerifying(milestoneId);
@@ -196,10 +204,10 @@ export default function ActiveGigPage() {
           {/* Task header */}
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18, flexWrap: 'wrap', gap: 10 }}>
             <div>
-              <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>{tasks[taskId]?.title || `Task ${taskId}`}</h2>
+              <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>{getTask(taskId)?.title || `Task ${taskId}`}</h2>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                <span style={{ fontSize: 12, color: 'var(--ink-4)' }}>👤 {tasks[taskId]?.business}</span>
-                <span style={{ fontSize: 12, color: 'var(--green)', fontWeight: 700 }}>{tasks[taskId]?.budget} in escrow</span>
+                <span style={{ fontSize: 12, color: 'var(--ink-4)' }}>👤 {getTask(taskId)?.business}</span>
+                <span style={{ fontSize: 12, color: 'var(--green)', fontWeight: 700 }}>{getTask(taskId)?.budget} in escrow</span>
                 <span style={{ fontSize: 12, color: 'var(--ink-4)' }}>{taskMilestones.filter(m => m.status === 'approved').length}/{taskMilestones.length} milestones done</span>
               </div>
             </div>

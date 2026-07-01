@@ -178,9 +178,9 @@ export default function MascotGuide() {
           <Image
             src="/mascot.png"
             alt="Aloha bird"
-            width={58}
-            height={58}
-            style={{ objectFit: 'contain', marginTop: 4 }}
+            width={72}
+            height={72}
+            style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '50%' }}
           />
         </div>
       </div>

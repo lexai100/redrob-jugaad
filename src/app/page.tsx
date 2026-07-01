@@ -288,6 +288,73 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── APP STORE EMBED SECTION ── */}
+      <section style={{ borderTop: '1px solid var(--border)', padding: '80px 48px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 52 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 14px', background: 'rgba(124,181,24,0.1)', border: '1px solid rgba(124,181,24,0.3)', borderRadius: 20, marginBottom: 16 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--green)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>🏪 Redrob App Store Ready</span>
+            </div>
+            <h2 style={{ fontSize: 36, fontWeight: 800, marginBottom: 12 }}>Plug into Redrob with one line of code</h2>
+            <p style={{ fontSize: 16, color: 'var(--ink-3)', maxWidth: 520, margin: '0 auto 16px' }}>
+              Jugaad is built to embed directly inside the Redrob App Store. No redirects, no friction — students and businesses never leave the platform.
+            </p>
+            <code style={{ fontSize: 12, color: 'var(--green)', background: 'var(--bg-3)', padding: '6px 14px', borderRadius: 6, fontFamily: 'monospace' }}>
+              {'<iframe src="https://redrob-jugaad.vercel.app/embed?role=student" width="420" height="580" />'}
+            </code>
+          </div>
+
+          {/* Live embed previews */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, alignItems: 'start' }}>
+            {/* Student embed */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+                <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--green)' }} />
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-3)' }}>Student View — <code style={{ fontSize: 12, color: 'var(--green)' }}>?role=student</code></span>
+              </div>
+              <div style={{ border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--bg-2)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
+                <div style={{ background: 'var(--bg-3)', padding: '8px 14px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} />
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ffbd2e' }} />
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840' }} />
+                  <span style={{ marginLeft: 8, fontSize: 11, color: 'var(--ink-4)', fontFamily: 'monospace' }}>redrob-jugaad.vercel.app/embed?role=student</span>
+                </div>
+                <iframe
+                  src="/embed?role=student"
+                  width="100%"
+                  height="520"
+                  style={{ border: 'none', display: 'block' }}
+                  title="Student Embed Preview"
+                />
+              </div>
+            </div>
+
+            {/* Business embed */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+                <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#A78BFA' }} />
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-3)' }}>Business View — <code style={{ fontSize: 12, color: '#A78BFA' }}>?role=business</code></span>
+              </div>
+              <div style={{ border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--bg-2)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
+                <div style={{ background: 'var(--bg-3)', padding: '8px 14px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} />
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ffbd2e' }} />
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840' }} />
+                  <span style={{ marginLeft: 8, fontSize: 11, color: 'var(--ink-4)', fontFamily: 'monospace' }}>redrob-jugaad.vercel.app/embed?role=business</span>
+                </div>
+                <iframe
+                  src="/embed?role=business"
+                  width="100%"
+                  height="520"
+                  style={{ border: 'none', display: 'block' }}
+                  title="Business Embed Preview"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
       <section style={{ borderTop: '1px solid var(--border)', padding: '80px 48px', textAlign: 'center', background: 'var(--bg-2)' }}>
         <h2 style={{ fontSize: 40, fontWeight: 800, marginBottom: 14 }}>Ready to see it live?</h2>

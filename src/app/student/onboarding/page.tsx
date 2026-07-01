@@ -281,6 +281,7 @@ function OnboardingInner() {
   const [revealed, setRevealed] = useState<Record<number, boolean>>({});
   const [mcqScore, setMcqScore] = useState(0);
   const [seedScore, setSeedScore] = useState(0);
+  const [disqualified, setDisqualified] = useState(false);
 
   // Subjective phase
   const [subjAnswer, setSubjAnswer] = useState('');
@@ -410,7 +411,7 @@ function OnboardingInner() {
       }
     };
 
-    // Screenshot / print blocking
+    // Screenshot / print blocking — instant disqualification
     const onKeyDown = (e: KeyboardEvent) => {
       const blocked =
         e.key === 'PrintScreen' ||
@@ -421,12 +422,15 @@ function OnboardingInner() {
       if (blocked) {
         e.preventDefault();
         e.stopPropagation();
-        // Clear clipboard to kill PrintScreen capture
         navigator.clipboard?.writeText('').catch(() => {});
-        setLockWarning('🚫 Screenshot attempt detected! -5 minutes penalty.');
-        setViolations(v => v + 1);
-        setTimeLeft(t => Math.max(0, t - 5 * 60));
-        setTimeout(() => setLockWarning(''), 4000);
+        // TERMINATE assessment immediately
+        if (timerRef2.current) clearInterval(timerRef2.current);
+        setSeedScore(0);
+        setMcqScore(0);
+        setDisqualified(true);
+        setStep('result');
+        // Exit fullscreen so the disqualification screen shows clearly
+        document.exitFullscreen?.().catch(() => {});
       }
     };
 
@@ -689,11 +693,42 @@ function OnboardingInner() {
       {/* Result */}
       {step === 'result' && (
         <div className="fade-up">
-          <div style={{ textAlign: 'center', marginBottom: 32 }}>
-            <div style={{ fontSize: 52, marginBottom: 12 }}>🎉</div>
-            <h1 style={{ fontSize: 30, fontWeight: 800, marginBottom: 8 }}>You're on the {selectedTrack} track!</h1>
-            <p style={{ color: 'var(--ink-3)', fontSize: 15 }}>Your Seed Score is locked in. Track-Record Score grows with every verified gig.</p>
-          </div>
+
+          {/* ── DISQUALIFIED ── */}
+          {disqualified ? (
+            <div style={{ textAlign: 'center', padding: '40px 24px' }}>
+              <div style={{
+                background: 'rgba(220,38,38,0.08)', border: '2px solid rgba(220,38,38,0.4)',
+                borderRadius: 16, padding: '40px 32px', marginBottom: 28,
+              }}>
+                <div style={{ fontSize: 56, marginBottom: 16 }}>🚫</div>
+                <h1 style={{ fontSize: 26, fontWeight: 800, color: '#F87171', marginBottom: 12 }}>Assessment Terminated</h1>
+                <p style={{ fontSize: 15, color: 'var(--ink-3)', lineHeight: 1.7, marginBottom: 8 }}>
+                  A screenshot attempt was detected during your assessment.
+                </p>
+                <p style={{ fontSize: 15, color: 'var(--ink-3)', lineHeight: 1.7, marginBottom: 24 }}>
+                  Your session has been flagged and your Seed Score has been set to <strong style={{ color: '#F87171' }}>0</strong>. This will appear on your Redrob profile as a <strong style={{ color: '#F87171' }}>proctoring violation</strong>.
+                </p>
+                <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginBottom: 20 }}>
+                  <div style={{ background: 'rgba(220,38,38,0.12)', border: '1px solid rgba(220,38,38,0.3)', borderRadius: 12, padding: '16px 28px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#F87171', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>Seed Score</div>
+                    <div style={{ fontSize: 44, fontWeight: 800, color: '#F87171', fontFamily: "'Inter Tight', sans-serif" }}>0</div>
+                  </div>
+                  <div style={{ background: 'rgba(220,38,38,0.12)', border: '1px solid rgba(220,38,38,0.3)', borderRadius: 12, padding: '16px 28px', textAlign: 'center' }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#F87171', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>Status</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: '#F87171', fontFamily: "'Inter Tight', sans-serif", marginTop: 8 }}>⛔ Flagged</div>
+                  </div>
+                </div>
+                <p style={{ fontSize: 12, color: 'var(--ink-4)', lineHeight: 1.6 }}>
+                  Assessments are proctored for fairness to all students. Violations are recorded and cannot be appealed.
+                </p>
+              </div>
+              <button className="btn-secondary" onClick={() => router.push('/')} style={{ fontSize: 14 }}>
+                ← Back to Home
+              </button>
+            </div>
+          ) : (
+            <>
 
           {/* Score display */}
           <div style={{ display: 'flex', gap: 16, marginBottom: 28 }}>
@@ -758,8 +793,11 @@ function OnboardingInner() {
             <button className="btn-primary" onClick={() => router.push('/student/s1')} style={{ fontSize: 15, padding: '12px 28px' }}>View Profile →</button>
             <button className="btn-secondary" onClick={() => router.push('/leaderboard')} style={{ fontSize: 15 }}>See Leaderboard</button>
           </div>
+            </>
+          )}
         </div>
       )}
+
     </div>
   );
 }

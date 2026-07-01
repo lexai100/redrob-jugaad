@@ -173,7 +173,9 @@ export default function ShortlistClient() {
 
 function StudentCard({ student, rank, trackColors, taskData }: any) {
   const [expanded, setExpanded] = useState(false);
+  const [assigned, setAssigned] = useState(false);
   const color = trackColors[student.track] || 'var(--purple)';
+  const isArjun = student.userId === 's1';
 
   return (
     <div className="card fade-up" style={{ marginBottom: 16, animationDelay: `${rank * 0.05}s`, cursor: 'pointer' }} onClick={() => setExpanded(!expanded)}>
@@ -240,13 +242,41 @@ function StudentCard({ student, rank, trackColors, taskData }: any) {
               </div>
             </div>
           )}
+
+          {/* Gig assigned confirmation */}
+          {assigned && isArjun && (
+            <div className="fade-up" style={{
+              background: 'rgba(124,181,24,0.08)', border: '1px solid rgba(124,181,24,0.3)',
+              borderRadius: 12, padding: '16px 18px', marginBottom: 12,
+            }}>
+              <p style={{ fontWeight: 700, color: 'var(--green)', marginBottom: 6 }}>✅ Gig assigned to {student.user?.name}!</p>
+              <p style={{ fontSize: 13, color: 'var(--ink-3)', marginBottom: 12 }}>
+                ₹6,000–₹8,000 locked in escrow. Arjun has been notified and can see the milestone breakdown in his dashboard.
+              </p>
+              <Link
+                href={`/student/${student.userId}/gig`}
+                className="btn-primary"
+                style={{ fontSize: 13, padding: '9px 18px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                onClick={e => e.stopPropagation()}
+              >
+                👀 See Arjun's Active Gig →
+              </Link>
+            </div>
+          )}
+
           <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
             <Link href={`/student/${student.userId}`} className="btn-secondary" style={{ fontSize: 13, padding: '8px 16px' }} onClick={e => e.stopPropagation()}>
               View Profile
             </Link>
-            <button className="btn-primary" style={{ fontSize: 13, padding: '8px 16px' }} onClick={e => e.stopPropagation()}>
-              ✓ Select Student
-            </button>
+            {!assigned && (
+              <button
+                className="btn-primary"
+                style={{ fontSize: 13, padding: '8px 16px' }}
+                onClick={e => { e.stopPropagation(); setAssigned(true); }}
+              >
+                ✓ Assign Gig
+              </button>
+            )}
           </div>
         </div>
       )}

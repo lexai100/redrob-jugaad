@@ -268,6 +268,26 @@ export const tasks: Task[] = [
     weightPreference: 'trackRecordScore',
     createdAt: '2024-01-08T10:00:00Z',
   },
+  // ── FAKE GIG for Demo: Dev task assigned to Arjun (s1) ──
+  {
+    id: 't5',
+    businessOwnerId: 'b1',
+    rawInput: 'Need a full landing page for ThreadHouse with product showcase, WhatsApp order button, and mobile-first design.',
+    brief: {
+      title: 'Landing Page — ThreadHouse Streetwear',
+      scope: 'Build a responsive, mobile-first landing page for ThreadHouse featuring a product grid, hero section, and WhatsApp order integration.',
+      deliverables: ['Responsive HTML/CSS/JS landing page', 'Hero section with brand imagery', 'Product grid (6 items)', 'WhatsApp CTA button with pre-filled message', 'Deployed on Vercel with public link'],
+      budget_range: '₹6,000 – ₹8,000',
+      timeline: '6 days',
+      acceptance_criteria: ['Works on mobile and desktop', 'WhatsApp button opens chat with pre-filled order message', 'Page loads under 3 seconds', 'Matches ThreadHouse brand colors', 'Deployed and publicly accessible link delivered'],
+    },
+    track: 'Dev',
+    budgetRange: '₹6,000 – ₹8,000',
+    urgency: 'normal',
+    status: 'in-progress',
+    weightPreference: 'seedScore',
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+  },
 ];
 
 export const matches: Match[] = [
@@ -305,6 +325,14 @@ export const matches: Match[] = [
     matchScore: 82,
     matchBreakdown: { skillTrackMatch: 38, budgetFit: 19, trackRecord: 19, availability: 6 },
     matchedAt: '2024-01-08T11:00:00Z',
+  },
+  // Arjun (s1) assigned to ThreadHouse Landing Page (t5)
+  {
+    taskId: 't5',
+    studentId: 's1',
+    matchScore: 94,
+    matchBreakdown: { skillTrackMatch: 40, budgetFit: 20, trackRecord: 25, availability: 9 },
+    matchedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
   },
 ];
 
@@ -368,6 +396,38 @@ export const milestones: Milestone[] = [
     submittedAt: '2024-01-10T12:00:00Z',
     submissionText: 'Full 14-day calendar with 3 posts/day structure, captions, and hashtag sets (niche + broad mix).',
     submissionLink: 'https://docs.google.com/spicebox-calendar',
+  },
+  // ── Arjun (s1) milestones for ThreadHouse Landing Page (t5) ──
+  {
+    id: 'm6',
+    taskId: 't5',
+    studentId: 's1',
+    title: 'Wireframe + project setup',
+    description: 'Share low-fidelity wireframe and confirm tech stack. Set up GitHub repo and Vercel project.',
+    status: 'approved',
+    aiVerdict: { approved: true, reason: 'Wireframe clearly shows hero, product grid, and WhatsApp CTA sections. GitHub repo is set up with Next.js. Vercel project linked and skeleton deployed. All setup criteria satisfied — milestone approved, ₹2,000 released from escrow.' },
+    dueDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    submittedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000 - 3 * 60 * 60 * 1000).toISOString(),
+    submissionText: 'Wireframe done in Figma — 3 screens (desktop hero, product grid, mobile). Repo at github.com/arjun-threadhouse, deployed skeleton on Vercel.',
+    submissionLink: 'https://figma.com/threadhouse-wireframe-demo',
+  },
+  {
+    id: 'm7',
+    taskId: 't5',
+    studentId: 's1',
+    title: 'Responsive HTML/CSS build',
+    description: 'Build the full responsive page — hero section, product grid (6 items), WhatsApp CTA button. Must work perfectly on mobile and desktop.',
+    status: 'pending',
+    dueDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'm8',
+    taskId: 't5',
+    studentId: 's1',
+    title: 'Final deployment + handoff',
+    description: 'Deploy to Vercel, share public link, deliver source code zip and all asset files.',
+    status: 'pending',
+    dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
   },
 ];
 
